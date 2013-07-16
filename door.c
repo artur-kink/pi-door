@@ -34,23 +34,23 @@ int main(int argc, char** argv){
 	bcm2835_gpio_write(PIN_15, HIGH);
 	
 	// Set Pin 22 to be input with pullup
-    bcm2835_gpio_fsel(PIN_22, BCM2835_GPIO_FSEL_INPT);
-    bcm2835_gpio_set_pud(PIN_22, BCM2835_GPIO_PUD_UP);
+	bcm2835_gpio_fsel(PIN_22, BCM2835_GPIO_FSEL_INPT);
+	bcm2835_gpio_set_pud(PIN_22, BCM2835_GPIO_PUD_UP);
     
 	run = 1;
 	counter = 0;
 	status = LOW;
 	while(run){
 		//Check if door is open or closed
-        uint8_t value = bcm2835_gpio_lev(PIN_22);
-        if(value == HIGH)
+        	uint8_t value = bcm2835_gpio_lev(PIN_22);
+        	if(value == HIGH)
 			on_high();
 		else
 			on_low();
         
 		//Sleep
 		counter++;
-        delay(SLEEP_TIME);
+        	delay(SLEEP_TIME);
 	}
 	return 1;
 }
@@ -66,7 +66,7 @@ void on_high(){
 }
 
 /** Action to perform when input is low(Door open) */
-void on_open(){
+void on_low(){
 	if(status == HIGH || counter == 0){
 		counter = 0;
 		status = LOW;
