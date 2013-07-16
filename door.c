@@ -12,8 +12,8 @@
 void on_high();
 void on_low();
 
-#define PIN_15 RPI_GPIO_P1_15
-#define PIN_22 RPI_GPIO_P1_22
+#define PIN_OUT RPI_V2_GPIO_P1_11
+#define PIN_PIN RPI_V2_GPIO_P1_15
 
 int run;
 //Check counter runs from 0-255
@@ -29,20 +29,20 @@ int main(int argc, char** argv){
 	if (!bcm2835_init())
         return 1;
 
-	//Set Pin 15 to be output
-	bcm2835_gpio_fsel(PIN_15, BCM2835_GPIO_FSEL_OUTP);
-	bcm2835_gpio_write(PIN_15, HIGH);
+	//Set PIN_OUT to be output
+	bcm2835_gpio_fsel(PIN_OUT, BCM2835_GPIO_FSEL_OUTP);
+	bcm2835_gpio_write(PIN_OUT, HIGH);
 	
-	// Set Pin 22 to be input with pullup
-	bcm2835_gpio_fsel(PIN_22, BCM2835_GPIO_FSEL_INPT);
-	bcm2835_gpio_set_pud(PIN_22, BCM2835_GPIO_PUD_UP);
+	// Set PIN_IN to be input with pulldown
+	bcm2835_gpio_fsel(PIN_IN, BCM2835_GPIO_FSEL_INPT);
+	bcm2835_gpio_set_pud(PIN_IN, BCM2835_GPIO_PUD_DOWN);
     
 	run = 1;
 	counter = 0;
 	status = LOW;
 	while(run){
 		//Check if door is open or closed
-        	uint8_t value = bcm2835_gpio_lev(PIN_22);
+        	uint8_t value = bcm2835_gpio_lev(PIN_IN);
         	if(value == HIGH)
 			on_high();
 		else
